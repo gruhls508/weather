@@ -122,8 +122,8 @@ static NSString * const BaseURLString = @"http://www.raywenderlich.com/demos/wea
         [XMLParser setShouldProcessNamespaces:YES];
 
         // Leave these commented for now (you first need to add the delegate methods)
-        // XMLParser.delegate = self;
-        // [XMLParser parse];
+         XMLParser.delegate = self;
+         [XMLParser parse];
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 
@@ -161,9 +161,26 @@ static NSString * const BaseURLString = @"http://www.raywenderlich.com/demos/wea
 
 
 
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    if(!self.weather)
+        return 0;
+
+    switch (section)
+    {
+        case 0:
+        {
+            return 1;
+        }
+        case 1:
+        {
+            NSArray *upcomingWeather = [self.weather upcomingWeather];
+            return [upcomingWeather count];
+        }
+        default:
+            return 0;
+    }
 }
 
 
