@@ -185,12 +185,33 @@ static NSString * const BaseURLString = @"http://www.raywenderlich.com/demos/wea
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+
 {
     static NSString *CellIdentifier = @"WeatherCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+
+    NSDictionary *daysWeather = nil;
+
+    switch (indexPath.section) {
+        case 0: {
+            daysWeather = [self.weather currentCondition];
+            break;
+        }
+
+        case 1: {
+            NSArray *upcomingWeather = [self.weather upcomingWeather];
+            daysWeather = upcomingWeather[indexPath.row];
+            break;
+        }
+
+        default:
+            break;
+    }
+
+    cell.textLabel.text = [daysWeather weatherDescription];
+
+    // You will add code here later to customize the cell, but it's good for now.
+
     
     return cell;
 }
